@@ -13,6 +13,8 @@ class Translator
 
     private $source, $target;
 
+    private $sourcePath;
+
     /**
      * @param string $googleKey
      * @param string $source
@@ -28,6 +30,7 @@ class Translator
             $target = [$target];
         }
         $this->target = $target;
+        $this->sourcePath = "{$this->sourcePrefix}{$this->source}";
     }
 
     /**
@@ -36,11 +39,10 @@ class Translator
      */
     public function get() : void
     {
-        $sourcePath = "{$this->sourcePrefix}{$this->source}";
-        $realSourcePath = realpath($sourcePath);
+        $realSourcePath = realpath($this->sourcePath);
         foreach ($this->target as $targetValue) {
             $realTargetPath = $this->realTargetPath($realSourcePath, $targetValue);
-            $result = array_reverse($this->getDirContents($sourcePath));
+            $result = array_reverse($this->getDirContents($this->sourcePath));
             //ana klasörü oluşturur
             if (!file_exists($realTargetPath)) {
                 mkdir($realTargetPath);
