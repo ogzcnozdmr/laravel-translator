@@ -11,7 +11,9 @@ class Translator
     private $targetDirectoryOperator = '/';//\\
     private $sourcePrefix = '../lang/';
 
-    private $source, $target, $sourcePath;
+    private $source, $target;
+
+    private $sourcePath, $realSourcePath;
 
     /**
      * @param string $googleKey
@@ -29,6 +31,7 @@ class Translator
         }
         $this->target = $target;
         $this->sourcePath = "{$this->sourcePrefix}{$this->source}";
+        $this->realSourcePath = realpath($this->sourcePath);
     }
 
     /**
@@ -37,9 +40,9 @@ class Translator
      */
     public function get() : void
     {
-        $realSourcePath = realpath($this->sourcePath);
+
         foreach ($this->target as $targetValue) {
-            $realTargetPath = $this->realTargetPath($realSourcePath, $targetValue);
+            $realTargetPath = $this->realTargetPath($this->realSourcePath, $targetValue);
             $result = array_reverse($this->getDirContents($this->sourcePath));
             //ana klasörü oluşturur
             if (!file_exists($realTargetPath)) {
@@ -47,7 +50,7 @@ class Translator
             }
             //base pathleri alır
             foreach ($result as $key => $value) {
-                $valueMainPath = str_replace($realSourcePath, '', $value);
+                $valueMainPath = str_replace($this->realSourcePath, '', $value);
                 //klasör ise
                 if (is_dir($value)) {
                     if (!file_exists($realTargetPath . $valueMainPath)) {
