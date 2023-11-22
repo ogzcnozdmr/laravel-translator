@@ -11,9 +11,7 @@ class Translator
     private $targetDirectoryOperator = '/';//\\
     private $sourcePrefix = '../lang/';
 
-    private $source, $target;
-
-    private $sourcePath;
+    private $source, $target, $sourcePath;
 
     /**
      * @param string $googleKey
