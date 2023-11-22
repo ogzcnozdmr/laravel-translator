@@ -95,7 +95,7 @@ class Translator
      * @param array $results
      * @return array
      */
-    private function getDirContents(string $dir, array &$results = [])
+    public function getDirContents(string $dir, array &$results = [])
     {
         $files = scandir($dir);
         foreach ($files as $key => $value) {
