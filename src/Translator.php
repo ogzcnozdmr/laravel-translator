@@ -30,8 +30,6 @@ class Translator
             $target = [$target];
         }
         $this->target = $target;
-        $this->sourcePath = "{$this->sourcePrefix}{$this->source}";
-        $this->realSourcePath = realpath($this->sourcePath);
     }
 
     /**
@@ -40,7 +38,10 @@ class Translator
      */
     public function get() : void
     {
-
+        /*
+         * Pathları oluşturur
+         */
+        $this->createPaths();
         foreach ($this->target as $targetValue) {
             $realTargetPath = $this->realTargetPath($this->realSourcePath, $targetValue);
             $result = array_reverse($this->getDirContents($this->sourcePath));
@@ -88,8 +89,17 @@ class Translator
     {
         $explode = explode($this->targetDirectoryOperator, $realSourcePath);
         array_pop($explode);
-        array_push($explode, $target);
+        $explode[] = $target;
         return implode($this->targetDirectoryOperator, $explode);
+    }
+
+    /**
+     * Pathları oluşturur
+     * @return void
+     */
+    public function createPaths() {
+        $this->sourcePath = "{$this->sourcePrefix}{$this->source}";
+        $this->realSourcePath = realpath($this->sourcePath);
     }
 
     /**
