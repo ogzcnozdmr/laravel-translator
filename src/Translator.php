@@ -41,10 +41,9 @@ class Translator
         /*
          * Pathları oluşturur
          */
-        $this->createPaths();
         foreach ($this->target as $targetValue) {
             $realTargetPath = $this->realTargetPath($this->realSourcePath, $targetValue);
-            $result = array_reverse($this->getDirContents($this->sourcePath));
+            $result = array_reverse($this->getDirContents());
             //ana klasörü oluşturur
             if (!file_exists($realTargetPath)) {
                 mkdir($realTargetPath);
@@ -108,8 +107,12 @@ class Translator
      * @param array $results
      * @return array
      */
-    public function getDirContents(string $dir, array &$results = [])
+    public function getDirContents(?string $dir = null, array &$results = [])
     {
+        if ($dir === null) {
+            $this->createPaths();
+            $dir = $this->sourcePath;
+        }
         $files = scandir($dir);
         foreach ($files as $key => $value) {
             $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
