@@ -9,9 +9,9 @@ class Translator
     private TranslateClient $trs;
 
     private string $targetDirectoryOperator = '/';//\\
-    private string $sourcePrefix = '../lang/';
+    private string $sourcePrefix = '/';
 
-    private string $jsSourcePath = '';
+    private string $jsSourcePath = '/';
     private bool $jsLanguageCreator = false;
 
     private array $translate = [];
@@ -101,7 +101,7 @@ class Translator
                 mkdir($this->jsSourcePath);
             }
             foreach ($this->translate as $key => $value) {
-                $this->fileWrite( rtrim($this->jsSourcePath, '/')."/{$key}.lang.js", 'window.language = ' . json_encode($value) . ';');
+                $this->fileWrite("{$this->jsSourcePath}{$key}.lang.js", 'window.language = ' . json_encode($value) . ';');
             }
         }
     }
@@ -201,7 +201,7 @@ class Translator
      * Get Source Prefix
      * @return string
      */
-    public function getSourcePrefix() : string {
+    public function getSourcePath() : string {
         return $this->sourcePrefix;
     }
 
@@ -210,8 +210,8 @@ class Translator
      * @param string $value
      * @return void
      */
-    public function setSourcePrefix(string $value) {
-        $this->sourcePrefix = $value;
+    public function setSourcePath(string $value) {
+        $this->sourcePrefix = rtrim($value, $this->targetDirectoryOperator);
         $this->createPaths();
     }
 
@@ -229,7 +229,7 @@ class Translator
      * @return void
      */
     public function setJsSourcePath(string $value) {
-        $this->jsSourcePath = $value;
+        $this->jsSourcePath = rtrim($value, $this->targetDirectoryOperator);
     }
 
     /**
