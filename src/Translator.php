@@ -44,7 +44,7 @@ class Translator
      * Translateyi başlatır
      * @return void
      */
-    public function __create() : void
+    public function start() : void
     {
         /*
          * Pathları oluşturur
@@ -211,7 +211,7 @@ class Translator
      * @return void
      */
     public function setSourcePath(string $value) {
-        $this->sourcePrefix = rtrim($value, $this->targetDirectoryOperator);
+        $this->sourcePrefix = rtrim($value, $this->targetDirectoryOperator).$this->targetDirectoryOperator;
         $this->createPaths();
     }
 
@@ -229,7 +229,7 @@ class Translator
      * @return void
      */
     public function setJsSourcePath(string $value) {
-        $this->jsSourcePath = rtrim($value, $this->targetDirectoryOperator);
+        $this->jsSourcePath = rtrim($value, $this->targetDirectoryOperator).$this->targetDirectoryOperator;
     }
 
     /**
