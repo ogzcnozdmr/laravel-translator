@@ -77,17 +77,17 @@ class Translator
                             'target' => $targetValue
                         ]);
                         if ($this->jsLanguageCreator) {
-                            $this->translate[$targetValue][
-                                str_replace(
-                                    $this->targetDirectoryOperator,
-                                    '.',
-                                    substr(
-                                        ltrim($valueMainPath, $this->targetDirectoryOperator),
-                                        0,
-                                        -4
-                                    )
-                                ) . ".{$dataKey}"
-                            ] = $result['text'];
+                            $targetValuePrefix = str_replace(
+                                $this->targetDirectoryOperator,
+                                '.',
+                                substr(
+                                    ltrim($valueMainPath, $this->targetDirectoryOperator),
+                                    0,
+                                    -4
+                                )
+                            );
+                            $this->translate[$targetValue]["{$targetValuePrefix}.{$dataKey}"] = $result['text'];
+                            $this->translate[$this->source]["{$targetValuePrefix}.{$dataKey}"] = $result['text'];
                         }
                         $writeData .= "    '$dataKey' => '" . $result['text'] . "'," . PHP_EOL;
                     }
@@ -253,6 +253,7 @@ class Translator
             foreach ($this->target as $t) {
                 $this->translate[$t] = [];
             }
+            $this->translate[$this->source] = [];
         }
         $this->jsLanguageCreator = $value;
     }
