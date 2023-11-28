@@ -11,7 +11,8 @@
   "require": {
     "php": ">=7.4",
     "google/cloud": "^0.165.0",
-    "google/cloud-translate": "^1.10"
+    "google/cloud-translate": "^1.10",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {

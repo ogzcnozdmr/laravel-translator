@@ -87,7 +87,7 @@ class Translator
                                 )
                             );
                             $this->translate[$targetValue]["{$targetValuePrefix}.{$dataKey}"] = $result['text'];
-                            $this->translate[$this->source]["{$targetValuePrefix}.{$dataKey}"] = $result['text'];
+                            $this->translate[$this->source]["{$targetValuePrefix}.{$dataKey}"] = $dataValue;
                         }
                         $writeData .= "    '$dataKey' => '" . $result['text'] . "'," . PHP_EOL;
                     }
@@ -101,7 +101,7 @@ class Translator
                 mkdir($this->jsSourcePath);
             }
             foreach ($this->translate as $key => $value) {
-                $this->fileWrite("{$this->jsSourcePath}{$key}.lang.js", 'window.language = ' . json_encode($value) . ';');
+                $this->fileWrite("{$this->jsSourcePath}{$key}.lang.js", 'window.language = ' . json_encode($value, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES) . ';');
             }
         }
     }
