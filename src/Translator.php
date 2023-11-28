@@ -12,6 +12,7 @@ class Translator
     private string $sourcePrefix = '/';
 
     private string $jsSourcePath = '/';
+    private string $jsSaveWindowName = 'translations';
     private bool $jsLanguageCreator = false;
 
     private array $translate = [];
@@ -101,7 +102,7 @@ class Translator
                 mkdir($this->jsSourcePath);
             }
             foreach ($this->translate as $key => $value) {
-                $this->fileWrite("{$this->jsSourcePath}{$key}.lang.js", 'window.language = ' . json_encode($value, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES) . ';');
+                $this->fileWrite("{$this->jsSourcePath}{$key}.js", "window.{$this->jsSaveWindowName} = " . json_encode($value, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES) . ';');
             }
         }
     }
@@ -230,6 +231,23 @@ class Translator
      */
     public function setJsSourcePath(string $value) {
         $this->jsSourcePath = rtrim($value, $this->targetDirectoryOperator).$this->targetDirectoryOperator;
+    }
+
+    /**
+     * Get JS Save Window Name
+     * @return string
+     */
+    public function getJsSaveWindowName() : string {
+        return $this->jsSaveWindowName;
+    }
+
+    /**
+     * Set JS Save Window Name
+     * @param string $value
+     * @return void
+     */
+    public function setJsSaveWindowName(string $value) {
+        $this->jsSaveWindowName = $value;
     }
 
     /**
